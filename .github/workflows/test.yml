@@ -1,0 +1,31 @@
+name: FastAPI Tests
+
+on:
+  push:
+    branches:
+      - master # 対象のブランチへプッシュ時
+  pull_request:
+    branches:
+      - master # プルリク時
+
+jobs:
+  test:
+    runs-on: ubuntu-latest  # テストを実行する環境
+    steps:
+    # 1. リポジトリのコードをチェックアウト
+    - name: Checkout code
+      uses: actions/checkout@v3
+    # 2. Python環境をセットアップ
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'  # 必要なPythonバージョンを指定
+    # 3. 必要な依存関係をインストール
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    # 4. テストを実行
+    - name: Run tests
+      run: |
+        pytest
